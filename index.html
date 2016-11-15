@@ -1,14 +1,11 @@
-<!--
-<script src="http://localhost:8080/socket.io/socket.io.js"></script>
-<script>
-  var socket = io.connect('http://localhost:8080');
-  socket.on('data', function (data) {
-    console.log(data);
+<!-- Based on Mike Bostock's example: https://bl.ocks.org/mbostock/3883245-->
 
-  });
-</script> -->
-<!--https://bl.ocks.org/mbostock/3883245-->
+<!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+
 <style>
+
 
 .axis--x path {
   display: none;
@@ -21,33 +18,56 @@
 }
 
 </style>
-<svg width="960" height="500"></svg>
+
+<svg width="960" height="600"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+
 <script>
 
-var data = [
-  {"time":"2011-05-07T16:06:58.9820000+01:00",	"value":"33.2224"}, {"time":"2011-05-07T16:07:03.0430000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:07:07.9680000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:07:12.0290000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:07:17.0400000+01:00",	"value":"33.4671"},
-  {"time":"2011-05-07T16:07:21.0140000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:07:26.0260000+01:00",	"value":"33.4365"},
-  {"time":"2011-05-07T16:07:30.0000000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:07:35.0110000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:07:38.9860000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:07:43.9970000+01:00",	"value":"33.2326"},
-  {"time":"2011-05-07T16:07:47.9710000+01:00",	"value":"33.4467"},
-  {"time":"2011-05-07T16:07:52.9820000+01:00",	"value":"33.202"}, {"time":"2011-05-07T16:07:57.0430000+01:00",	"value":"33.3957"},
-  {"time":"2011-05-07T16:08:01.9680000+01:00",	"value":"33.1816"},
-  {"time":"2011-05-07T16:08:06.0290000+01:00",	"value":"33.1816"},
-  {"time":"2011-05-07T16:08:11.0400000+01:00",	"value":"33.1918"},
-  {"time":"2011-05-07T16:08:15.0140000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:08:20.0260000+01:00",	"value":"33.4467"},
-  {"time":"2011-05-07T16:08:24.0000000+01:00",	"value":"33.1918"},
-  {"time":"2011-05-07T16:08:29.0110000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:08:32.9860000+01:00",	"value":"33.2224"},
-  {"time":"2011-05-07T16:08:37.9970000+01:00",	"value":"33.1816"},
+var dataValues = [
+  {"timestamp":"2011-05-07T15:42:26.9860000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:42:31.9970000+01:00","hkld":"33.3957"},
+  {"timestamp":"2011-05-07T15:42:35.9710000+01:00","hkld":"33.2224"},
+  {"timestamp":"2011-05-07T15:42:40.9820000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:42:44.9570000+01:00","hkld":"33.1918"},
+  {"timestamp":"2011-05-07T15:42:49.9680000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:42:54.0290000+01:00","hkld":"33.4467"},
+  {"timestamp":"2011-05-07T15:42:59.0400000+01:00","hkld":"33.1714"},
+  {"timestamp":"2011-05-07T15:43:03.0140000+01:00","hkld":"33.1714"},
+  {"timestamp":"2011-05-07T15:43:08.0260000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:12.0000000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:17.0110000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:20.9860000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:25.9970000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:29.9710000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:34.9820000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:38.9570000+01:00","hkld":"33.3957"},
+  {"timestamp":"2011-05-07T15:43:43.9680000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:48.0290000+01:00","hkld":"33.2224"},
+  {"timestamp":"2011-05-07T15:43:53.0400000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:43:57.0140000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:02.0260000+01:00","hkld":"33.1714"},
+  {"timestamp":"2011-05-07T15:44:06.0000000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:11.0110000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:14.9860000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:19.9970000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:23.9710000+01:00","hkld":"33.2224"},
+  {"timestamp":"2011-05-07T15:44:28.9820000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:33.0430000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:37.9680000+01:00","hkld":"33.4059"},
+  {"timestamp":"2011-05-07T15:44:42.0290000+01:00","hkld":"33.2224"},
 ];
+
+
+// Connection to BackEnd will be used at isse #3
+// var socket = io.connect('http://localhost:8080');
+// socket.on('data', function (data) {
+//   console.log(data);
+//   data.timestamp = new Date(data.timestamp);
+//   data.push(data);
+//   tick();
+// });
+
 
 var svg = d3.select("svg"),
     margin = {top: 20, right: 20, bottom: 30, left: 50},
@@ -55,27 +75,27 @@ var svg = d3.select("svg"),
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var parseTime = d3.timeParse("%X");
-
 var x = d3.scaleLinear()
     .rangeRound([0, width]);
 
 var y = d3.scaleTime()
     .rangeRound([height, 0]);
 
+
+
 var line = d3.line()
-    .x(function(d) { return x(d.value); })
-    .y(function(d) { return y(d.time); });
+    .x(function(d) { return x(d.timestamp); })
+    .y(function(d) { return y(d.hkld); });
 
-    var arrayLength = data.length;
+var arrayLength = Math.round(dataValues.length/2);
     for (var i = 0; i < arrayLength; i++) {
-      data[i].time = new Date(data[i].time);
-      data[i].value = +data[i].value;
-    };
+    dataValues[i].timestamp = new Date(dataValues[i].timestamp);
+    dataValues[i].hkld = +dataValues[i].hkld;
+};
 
+  x.domain(d3.extent(dataValues, function(d) { return d.hkld; }));
+  y.domain(d3.extent(dataValues, function(d) { return d.timestamp; }));
 
-  x.domain(d3.extent(data, function(d) { return d.value; }));
-  y.domain(d3.extent(data, function(d) { return d.time; }));
 
   g.append("g")
       .attr("class", "axis axis--x")
@@ -83,8 +103,8 @@ var line = d3.line()
       .call(d3.axisBottom(x))
     .append("text")
       .attr("fill", "#000")
-      .attr("x", 8)
-      .attr("dy", "0.8em")
+      .attr("x", 480)
+      .attr("dy", "2.7em")
       .style("text-anchor", "end")
       .text("Weight");
 
@@ -99,10 +119,39 @@ var line = d3.line()
       .style("text-anchor", "end")
       .text("Time");
 
-  g.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
+// Static version
+  // g.append("path")
+  //     .datum(dataValues)
+  //     .attr("class", "line")
+  //     .attr("d", line);
 
+// with transitions
+  g.append("g")
+      .attr("clip-path", "url(#clip)")
+    .append("path")
+      .datum(dataValues)
+      .attr("class", "line")
+      .attr("d", line)
+    .transition()
+      .duration(500)
+      .ease(d3.easeLinear)
+      .on("start", tick);
+
+  function tick() {
+
+    x.domain(d3.extent(dataValues, function(d) { return d.hkld; }));
+    y.domain(d3.extent(dataValues, function(d) { return d.timestamp; }));
+
+    if (dataValues.lenght > 0){
+    d3.select(this)
+        .attr("d", line)
+        .attr("transform", null);
+
+    d3.active(this)
+        .attr("transform", "translate(" + "0," + y(0) +")")
+        .transition()
+          .on("start", tick);
+  }
+}
 
 </script>
